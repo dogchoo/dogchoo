@@ -1,9 +1,8 @@
 "use client";
 
 import { MessageListItem } from "@/features/message/model/types/message";
-import { cn, dateFormat } from "@/libs/utils";
+import { cn } from "@/libs/utils";
 import { motion } from "framer-motion";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
 interface MessageProps {
   className?: string;
@@ -20,16 +19,8 @@ const Message = ({ className, message }: MessageProps) => {
     >
       <div className="flex items-center justify-between gap-2">
         <p className="text-sm">{message.content}</p>
-        <p className="text-xs">{dateFormat(new Date())}</p>
       </div>
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1">
-          <ThumbsUpIcon className="size-3 text-sm" />
-          <ThumbsDownIcon className="size-3 text-sm" />
-        </div>
-
-        <p className="text-muted-foreground text-right text-xs">{message.name}</p>
-      </div>
+      <div className="flex items-center justify-between gap-2"></div>
     </motion.div>
   );
 };

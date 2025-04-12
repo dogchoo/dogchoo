@@ -3,6 +3,7 @@
 import ChatArea, { FormValue } from "@/components/chat-area";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { MessageListItem } from "@/features/message/model/types/message";
 import { useMessageQuery } from "@/features/message/service/use-message-query";
 import { useMessage } from "@/hooks/use-message";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,37 +13,40 @@ import { useEffect, useRef, useState } from "react";
 const WelcomePage = () => {
   const { messages, isLoading, isFetching } = useMessageQuery().messagesQuery();
   const [values, setValues] = useState<FormValue[]>([]);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (value: any) => {
-    setValues((prev) => [...prev, value]);
-    setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    }, 0);
-  };
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useMessage({});
 
+  const handleSubmit = (value: MessageListItem) => {
+    setValues((prev) => [...prev, value]);
+    handleToBottm();
+  };
+
+  const handleToBottm = () => {
+    contentRef.current?.scrollIntoView(false);
+  };
+
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [values]);
+    handleToBottm();
+  }, []);
 
   if (isLoading || isFetching) {
     return <p className="text-muted-foreground text-sm"> 데이터를 불러오는 중 입니다.</p>;
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col pt-16">
       <div className="flex-1 overflow-hidden">
         <ScrollArea
           className="h-full px-6"
-          ref={scrollRef}
+          ref={scrollAreaRef}
         >
-          <div className="flex flex-col gap-2 pt-2 pb-24">
+          <div
+            className="flex flex-col gap-2 pt-2 pb-44"
+            ref={contentRef}
+          >
             <motion.div className="w-fit rounded-md border p-2">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm">{messages.id.content}</p>
