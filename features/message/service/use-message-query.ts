@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { convertMessageObject } from "@/features/message/utils";
-=======
-import { MessageListItem } from "@/features/message/model/types/message-list-item";
->>>>>>> 323b0907e4d501a2a857f00e776ec558011a86e6
 import { db } from "@/libs/firebase";
 import { get, ref } from "firebase/database";
 import { useQuery, useQueryClient } from "react-query";
