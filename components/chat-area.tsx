@@ -1,7 +1,8 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CreateMessageFormValue, createMessageSchema } from "@/features/message/model/schema/create-message-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageCirclePlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -19,14 +20,14 @@ interface ChatAreaProps {
 }
 
 const ChatArea = ({ handleSubmit }: ChatAreaProps) => {
-  const form = useForm<FormValue>({
-    resolver: zodResolver(schema),
+  const form = useForm<CreateMessageFormValue>({
+    resolver: zodResolver(createMessageSchema),
     defaultValues: {
       name: "ㅇㅇ",
     },
   });
 
-  const onSubmit = async (value: FormValue) => {
+  const onSubmit = async (value: CreateMessageFormValue) => {
     form.reset();
     handleSubmit?.(value);
   };
@@ -43,7 +44,6 @@ const ChatArea = ({ handleSubmit }: ChatAreaProps) => {
             name="content"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel></FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input

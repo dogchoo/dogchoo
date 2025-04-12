@@ -1,5 +1,7 @@
 export interface MessageListItem {
   name: string;
   content: string;
-  created?: Date;
+  created: string;
+  id: string;
+  clientId: string;
 }

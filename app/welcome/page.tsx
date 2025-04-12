@@ -3,38 +3,40 @@
 import ChatArea, { FormValue } from "@/components/chat-area";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageListItem } from "@/features/message/model/types/message";
 import { useMessageQuery } from "@/features/message/service/use-message-query";
 import { useMessage } from "@/hooks/use-message";
-import { AnimatePresence, motion } from "framer-motion";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const WelcomePage = () => {
-  const { messages, isLoading, isFetching } = useMessageQuery().messagesQuery();
-  const [values, setValues] = useState<FormValue[]>([]);
-
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  useMessage({});
+  const { addMessage } = useMessage();
 
-  const handleSubmit = (value: MessageListItem) => {
-    setValues((prev) => [...prev, value]);
-    handleToBottm();
+  const handleSubmit = (value: FormValue) => {
+    addMessage(value);
+    handleToBottom();
   };
 
-  const handleToBottm = () => {
+  const handleToBottom = () => {
     contentRef.current?.scrollIntoView(false);
   };
 
+  const { messages, isLoading, isFetching } = useMessageQuery().messagesQuery(() => handleToBottom());
+
   useEffect(() => {
-    handleToBottm();
+    handleToBottom();
   }, []);
 
-  if (isLoading || isFetching) {
-    return <p className="text-muted-foreground text-sm"> 데이터를 불러오는 중 입니다.</p>;
-  }
+  useEffect(() => {
+    let clientId = localStorage.getItem("chatClientId");
+    if (!clientId) {
+      clientId = uuidv4() as string;
+      localStorage.setItem("chatClientId", clientId);
+    }
+  }, []);
 
   return (
     <div className="flex h-full flex-col pt-16">
@@ -47,6 +49,19 @@ const WelcomePage = () => {
             className="flex flex-col gap-2 pt-2 pb-44"
             ref={contentRef}
           >
+            <div className="flex flex-col gap-2">
+              <AnimatePresence>
+                {messages &&
+                  messages.map((message) => (
+                    <Message
+                      key={message.id}
+                      message={message}
+                    />
+                  ))}
+              </AnimatePresence>
+            </div>
+
+            {/* {messages.map}
             <motion.div className="w-fit rounded-md border p-2">
               <div className="flex items-center justify-between gap-2">
                 <p className="text-sm">{messages.id.content}</p>
@@ -59,17 +74,7 @@ const WelcomePage = () => {
                 </div>
                 <p className="text-muted-foreground text-right text-xs">{messages.id.name}</p>
               </div>
-            </motion.div>
-            <div className="flex flex-col items-end gap-2">
-              <AnimatePresence>
-                {values.map((value, index) => (
-                  <Message
-                    key={index}
-                    message={value}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
+            </motion.div> */}
           </div>
         </ScrollArea>
       </div>
