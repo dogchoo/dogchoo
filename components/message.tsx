@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageListItem } from "@/features/message/model/types/message";
+import { MessageListItem } from "@/features/message/model/types/message-list-item";
 import { useClient } from "@/hooks/use-client";
 import { cn } from "@/libs/utils";
 import { motion } from "framer-motion";

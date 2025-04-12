@@ -1,11 +1,11 @@
-import { MessageListItem } from "@/features/message/model/types/message";
+import { MessageListItem } from "@/features/message/model/types/message-list-item";
 import { db } from "@/libs/firebase";
 import { get, ref } from "firebase/database";
 import { useQuery, useQueryClient } from "react-query";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";
 
-const fetchMessage = async () => {
+export const fetchMessage = async () => {
   const dbRef = ref(db, "message");
   const snapshot = await get(dbRef);
 

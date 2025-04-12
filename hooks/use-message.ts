@@ -1,5 +1,5 @@
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
-import { MessageListItem } from "@/features/message/model/types/message";
+import { MessageListItem } from "@/features/message/model/types/message-list-item";
 import { MESSAGES_QUERY_KEY } from "@/features/message/service/use-message-query";
 import { db } from "@/libs/firebase";
 import { onValue, ref, set } from "firebase/database";
