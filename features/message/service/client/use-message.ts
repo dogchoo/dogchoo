@@ -1,5 +1,5 @@
-import { useMessageMutation } from "@/features/message/service/use-message-mutation";
-import { MESSAGES_QUERY_KEY, useMessageQuery } from "@/features/message/service/use-message-query";
+import { useMessageMutation } from "@/features/message/service/client/use-message-mutation";
+import { MESSAGES_QUERY_KEY, useMessageQuery } from "@/features/message/service/client/use-message-query";
 import { convertMessageObject } from "@/features/message/utils";
 import { db } from "@/libs/firebase";
 import { onValue, ref } from "firebase/database";
@@ -21,11 +21,10 @@ export const useMessage = () => {
     return () => unsubscribe();
   }, [queryClient]);
 
-  const addMessage = addMessageMutation.mutate;
   const initialMessage = messageQuery.messagesQuery;
 
   return {
-    addMessage,
+    addMessageMutation,
     initialMessage,
   };
 };

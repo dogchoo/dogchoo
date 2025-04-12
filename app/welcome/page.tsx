@@ -4,7 +4,7 @@ import ChatArea from "@/components/chat-area";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
-import { useMessage } from "@/features/message/service/use-message";
+import { useMessage } from "@/features/message/service/client/use-message";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -21,11 +21,11 @@ const WelcomePage = () => {
 
   const timestampsRef = useRef<number[]>([]);
 
-  const { addMessage, initialMessage } = useMessage();
+  const { addMessageMutation, initialMessage } = useMessage();
 
   const handleSubmit = (value: CreateMessageFormValue) => {
     if (isChatEnabled) {
-      addMessage(value);
+      addMessageMutation.mutate(value);
       handleToBottom();
       submitSubject.current.next(value);
     }
@@ -124,8 +124,8 @@ const WelcomePage = () => {
 
       <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
         <ChatArea
+          isLoading={addMessageMutation.isLoading}
           handleSubmit={handleSubmit}
-          cooldownTime={cooldownTime}
           isChatEnabled={isChatEnabled}
         />
       </div>
