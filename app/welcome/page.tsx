@@ -99,14 +99,17 @@ const WelcomePage = () => {
   }
 
   return (
-    <div className="flex h-full flex-col pt-16">
-      <div className="flex-1 overflow-hidden">
+    <div className="flex h-full flex-col">
+      <div className="mb-28 flex-1 overflow-hidden">
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
+          onScroll={(e) => {
+            console.log(e);
+          }}
         >
           <div
-            className="flex flex-col gap-2 pt-2 pb-28"
+            className="flex flex-col gap-2 pt-2"
             ref={contentRef}
           >
             <AnimatePresence>

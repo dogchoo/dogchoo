@@ -26,7 +26,7 @@ const ChatArea = ({ isChatEnabled, isLoading, handleSubmit }: ChatAreaProps) => 
   const form = useForm<CreateMessageOmitClientFormValue>({
     resolver: zodResolver(createMessageSchemaOmitClientId),
     defaultValues: {
-      name: "ㅇㅇ",
+      name: "김슥삑",
     },
   });
 

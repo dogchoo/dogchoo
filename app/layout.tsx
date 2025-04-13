@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 };
 
 const dosis = Dosis({ weight: ["400"], subsets: ["latin"] });
+
 const quicksand = Quicksand({ subsets: ["latin"] });
+
 const IBMPlesSans = IBM_Plex_Sans_KR({
   weight: "400",
   display: "swap",
