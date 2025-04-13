@@ -1,5 +1,7 @@
 runtime: nodejs18
 
+entry: .
+
 env:
   - name: NEXT_PUBLIC_URL_API_KEY
     value: "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o"
