@@ -1,5 +1,6 @@
+import { MessageListItem } from "@/features/message/model/types/message-list-item";
 import { convertMessageObject } from "@/features/message/utils";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";
 
@@ -20,12 +21,11 @@ const fetchMessage = async () => {
 export const useMessageQuery = () => {
   const queryClient = useQueryClient();
 
-  const messagesQuery = (handler?: () => void) => {
-    const query = useQuery({
+  const messagesQuery = () => {
+    const query = useQuery<MessageListItem[]>({
       queryKey: [MESSAGES_QUERY_KEY],
       queryFn: fetchMessage,
       initialData: [],
-      onSuccess: handler,
       refetchOnWindowFocus: false,
     });
 

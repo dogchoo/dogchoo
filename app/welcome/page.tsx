@@ -127,7 +127,7 @@ const WelcomePage = () => {
 
       <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
         <ChatArea
-          isLoading={addMessageMutation.isLoading}
+          isLoading={addMessageMutation.isPending}
           handleSubmit={handleSubmit}
           isChatEnabled={isChatEnabled}
         />

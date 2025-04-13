@@ -1,5 +1,5 @@
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const createMessage = async (value: CreateMessageFormValue) => {
   const response = await fetch("/api/message", {
