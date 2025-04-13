@@ -13,6 +13,9 @@
   "optionalDependencies": {
     "lightningcss-linux-x64-gnu": "latest"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-label": "^2.1.3",
