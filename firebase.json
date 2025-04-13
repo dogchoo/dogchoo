@@ -1,10 +1,13 @@
 {
   "hosting": {
     "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  },
+  "steps": [
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "ls",
+      "args": ["-la"]
+    }
+  ]
 }
