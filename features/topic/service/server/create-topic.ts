@@ -2,7 +2,7 @@ import { CustomError } from "@/util/custom-error";
 import { CreateTopicFormValue, createTopicSchema } from "../../model/schema/create-topic-schema";
 import { pushTopic } from "../../repository/create-topic";
 
-export const createMessage = async (data: CreateTopicFormValue) => {
+export const createTopic = async (data: CreateTopicFormValue) => {
   const parsed = createTopicSchema.safeParse(data);
 
   if (!parsed.success) {
