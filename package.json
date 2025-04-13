@@ -10,6 +10,9 @@
     "prettier": "prettier --write \"**/*.{tsx, ts}\"",
     "export": "next export"
   },
+  "optionalDependencies": {
+    "lightningcss-linux-x64-gnu": "latest"
+  },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-label": "^2.1.3",
@@ -22,6 +25,7 @@
     "express": "^5.1.0",
     "firebase": "^11.6.0",
     "framer-motion": "^12.6.5",
+    "lightningcss": "^1.29.3",
     "lucide-react": "^0.487.0",
     "next": "15.3.0",
     "react": "^19.1.0",
