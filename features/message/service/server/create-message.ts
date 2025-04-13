@@ -17,7 +17,7 @@ export const createMessage = async (data: CreateMessageFormValue) => {
 
   const createMessage = {
     ...parsed.data,
-    created,
+    created: created,
   };
 
   const result = await pushMessage(createMessage);
