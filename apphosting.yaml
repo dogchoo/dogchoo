@@ -1,4 +1,4 @@
-runtime: nodejs23
+runtime: nodejs20
 entry: .
 
 runConfig:
