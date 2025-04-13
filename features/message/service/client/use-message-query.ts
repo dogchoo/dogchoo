@@ -15,7 +15,7 @@ const fetchMessage = async () => {
 
   const data = await response.json();
 
-  return convertMessageObject(data);
+  return convertMessageObject(data.messages);
 };
 
 export const useMessageQuery = () => {

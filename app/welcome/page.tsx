@@ -104,9 +104,6 @@ const WelcomePage = () => {
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
-          onScroll={(e) => {
-            console.log(e);
-          }}
         >
           <div
             className="flex flex-col gap-2 pt-2"
