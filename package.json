@@ -23,8 +23,6 @@
     "framer-motion": "^12.6.5",
     "lucide-react": "^0.487.0",
     "next": "15.3.0",
-    "prettier": "^3.5.3",
-    "prettierrc": "^0.0.0-5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
@@ -36,6 +34,8 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "prettier": "^3.5.3",
+    "prettierrc": "^0.0.0-5",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
