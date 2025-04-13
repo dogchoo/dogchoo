@@ -1,34 +1,45 @@
 "use client";
 
-import ChatArea, { FormValue } from "@/components/chat-area";
+import ChatArea from "@/components/chat-area";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMessageQuery } from "@/features/message/service/use-message-query";
-import { useMessage } from "@/hooks/use-message";
+import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
+import { useMessage } from "@/features/message/service/client/use-message";
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { BehaviorSubject, Subject } from "rxjs";
 import { v4 as uuidv4 } from "uuid";
 
 const WelcomePage = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isChatEnabled, setIsChatEnabled] = useState(true);
+  const [cooldownTime, setCooldownTime] = useState(0);
 
-  const { addMessage } = useMessage();
+  const submitSubject = useRef(new Subject<CreateMessageFormValue>());
+  const chatEnabledSubject = useRef(new BehaviorSubject<boolean>(true));
 
-  const handleSubmit = (value: FormValue) => {
-    addMessage(value);
-    handleToBottom();
+  const timestampsRef = useRef<number[]>([]);
+
+  const { addMessageMutation, initialMessage } = useMessage();
+
+  const handleSubmit = (value: CreateMessageFormValue) => {
+    if (isChatEnabled) {
+      addMessageMutation.mutate(value);
+      handleToBottom();
+      submitSubject.current.next(value);
+    }
   };
 
   const handleToBottom = () => {
     contentRef.current?.scrollIntoView(false);
   };
 
-  const { messages, isLoading, isFetching } = useMessageQuery().messagesQuery(() => handleToBottom());
+  const { messages, isLoading, isFetching } = initialMessage();
 
   useEffect(() => {
     handleToBottom();
-  }, []);
+  }, [messages]);
 
   useEffect(() => {
     let clientId = localStorage.getItem("chatClientId");
@@ -36,51 +47,90 @@ const WelcomePage = () => {
       clientId = uuidv4() as string;
       localStorage.setItem("chatClientId", clientId);
     }
+
+    const subscription = submitSubject.current.subscribe(() => {
+      const now = Date.now();
+      timestampsRef.current.push(now);
+      timestampsRef.current = timestampsRef.current.filter((ts) => now - ts <= 1000);
+
+      if (timestampsRef.current.length > 3) {
+        chatEnabledSubject.current.next(false);
+        setIsChatEnabled(false);
+        setCooldownTime(10);
+
+        const countdownInterval = setInterval(() => {
+          setCooldownTime((prev) => {
+            if (prev <= 1) {
+              clearInterval(countdownInterval);
+              chatEnabledSubject.current.next(true);
+              setIsChatEnabled(true);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+
+        setTimeout(() => {
+          chatEnabledSubject.current.next(true);
+          setIsChatEnabled(true);
+          setCooldownTime(0);
+          timestampsRef.current = [];
+        }, 10000);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
+  useEffect(() => {
+    const subscription = chatEnabledSubject.current.subscribe((enabled) => {
+      setIsChatEnabled(enabled);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  if (isLoading || isFetching) {
+    return <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">채팅을 불러오는 중 입니다.</p>;
+  }
+
   return (
-    <div className="flex h-full flex-col pt-16">
-      <div className="flex-1 overflow-hidden">
+    <div className="flex h-full flex-col">
+      <div className="mb-28 flex-1 overflow-hidden">
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
+          onScroll={(e) => {
+            console.log(e);
+          }}
         >
           <div
-            className="flex flex-col gap-2 pt-2 pb-44"
+            className="flex flex-col gap-2 pt-2"
             ref={contentRef}
           >
-            <div className="flex flex-col gap-2">
-              <AnimatePresence>
-                {messages &&
-                  messages.map((message) => (
-                    <Message
-                      key={message.id}
-                      message={message}
-                    />
-                  ))}
-              </AnimatePresence>
-            </div>
-
-            {/* {messages.map}
-            <motion.div className="w-fit rounded-md border p-2">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm">{messages.id.content}</p>
-                <p className="text-xs">{new Date().toLocaleString()}</p>
-              </div>
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1">
-                  <ThumbsUpIcon className="size-3 text-sm" />
-                  <ThumbsDownIcon className="size-3 text-sm" />
-                </div>
-                <p className="text-muted-foreground text-right text-xs">{messages.id.name}</p>
-              </div>
-            </motion.div> */}
+            <AnimatePresence>
+              {messages &&
+                messages.map((message) => (
+                  <Message
+                    key={message.id}
+                    message={message}
+                  />
+                ))}
+            </AnimatePresence>
           </div>
         </ScrollArea>
       </div>
 
       <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
-        <ChatArea handleSubmit={handleSubmit} />
+        <ChatArea
+          isLoading={addMessageMutation.isLoading}
+          handleSubmit={handleSubmit}
+          isChatEnabled={isChatEnabled}
+        />
       </div>
     </div>
   );

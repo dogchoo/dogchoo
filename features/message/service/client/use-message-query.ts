@@ -1,37 +1,32 @@
-import { MessageListItem } from "@/features/message/model/types/message";
-import { db } from "@/libs/firebase";
-import { get, ref } from "firebase/database";
+import { convertMessageObject } from "@/features/message/utils";
 import { useQuery, useQueryClient } from "react-query";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";
 
 const fetchMessage = async () => {
-  const dbRef = ref(db, "message");
-  const snapshot = await get(dbRef);
+  const response = await fetch("/api/message", {
+    method: "GET",
+  });
 
-  if (!snapshot.exists()) {
-    throw new Error("No data found");
+  if (!response.ok) {
+    throw new Error("에러.");
   }
 
-  const value = Object.entries(snapshot.val()).map(([key, value]) => ({
-    id: key,
-    ...(value as any),
-  })) as MessageListItem[];
+  const data = await response.json();
 
-  return value.sort((a, b) => {
-    return new Date(a.created).getTime() - new Date(b.created).getTime();
-  });
+  return convertMessageObject(data);
 };
 
 export const useMessageQuery = () => {
   const queryClient = useQueryClient();
 
-  const messagesQuery = (handler: () => void) => {
+  const messagesQuery = (handler?: () => void) => {
     const query = useQuery({
       queryKey: [MESSAGES_QUERY_KEY],
       queryFn: fetchMessage,
       initialData: [],
       onSuccess: handler,
+      refetchOnWindowFocus: false,
     });
 
     return {

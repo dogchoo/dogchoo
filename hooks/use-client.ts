@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export const useClient = () => {
-  const [clientId, setClientId] = useState<string | null>(null);
+  const [clientId, setClientId] = useState<string>("");
 
   useEffect(() => {
     let clientId = localStorage.getItem("chatClientId");

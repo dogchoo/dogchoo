@@ -1,39 +1,45 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CreateMessageFormValue, createMessageSchema } from "@/features/message/model/schema/create-message-schema";
+import { useClient } from "@/hooks/use-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MessageCirclePlusIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import z from "zod";
-
-const schema = z.object({
-  content: z.string().min(1, { message: "" }),
-  name: z.string().min(1, { message: "" }),
-});
-
-export type FormValue = z.infer<typeof schema>;
+import { z } from "zod";
 
 interface ChatAreaProps {
-  handleSubmit?: (value: FormValue) => void;
+  isChatEnabled: boolean;
+  isLoading: boolean;
+  handleSubmit?: (value: CreateMessageFormValue) => void;
 }
 
-const ChatArea = ({ handleSubmit }: ChatAreaProps) => {
-  const form = useForm<CreateMessageFormValue>({
-    resolver: zodResolver(createMessageSchema),
+const createMessageSchemaOmitClientId = createMessageSchema.omit({ clientId: true });
+type CreateMessageOmitClientFormValue = z.infer<typeof createMessageSchemaOmitClientId>;
+
+const ChatArea = ({ isChatEnabled, isLoading, handleSubmit }: ChatAreaProps) => {
+  const clientId = useClient();
+
+  const form = useForm<CreateMessageOmitClientFormValue>({
+    resolver: zodResolver(createMessageSchemaOmitClientId),
     defaultValues: {
-      name: "ㅇㅇ",
+      name: "김슥삑",
     },
   });
 
-  const onSubmit = async (value: CreateMessageFormValue) => {
+  const onSubmit = (value: CreateMessageOmitClientFormValue) => {
     form.reset();
-    handleSubmit?.(value);
+    handleSubmit?.({
+      ...value,
+      clientId,
+    });
   };
 
   return (
-    <div className="m-2 lg:px-12">
+    <div className="relative m-2 lg:px-12">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -52,14 +58,37 @@ const ChatArea = ({ handleSubmit }: ChatAreaProps) => {
                       {...field}
                       placeholder="채팅 메시지를 입력 해 주세요."
                       value={field.value || ""}
+                      disabled={!isChatEnabled}
                     />
-                    <MessageCirclePlusIcon className="text-muted-foreground absolute top-1/2 right-4 size-6 -translate-y-1/2" />
+                    <Button
+                      className="text-muted-foreground absolute top-1/2 right-4 flex -translate-y-1/2 items-center gap-x-2"
+                      size="sm"
+                      type="submit"
+                      variant="outline"
+                    >
+                      <SendIcon className="size-3" />
+                      <p>전송</p>
+                    </Button>
+                    {isLoading && <LoaderCircleIcon className="text-muted-foreground absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin opacity-70" />}
                   </div>
                 </FormControl>
               </FormItem>
             )}
           />
         </form>
+
+        <AnimatePresence>
+          {!isChatEnabled && (
+            <motion.div
+              className="absolute bottom-0 left-1/2 w-fit -translate-x-1/2 truncate text-sm text-rose-500"
+              initial={{ opacity: 0, top: -40 }}
+              animate={{ opacity: 1, top: -60 }}
+              exit={{ opacity: 0, top: -40 }}
+            >
+              도배가 감지되어 채팅이 10초간 차단 됩니다.
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Form>
     </div>
   );
