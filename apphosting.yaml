@@ -10,14 +10,22 @@ runConfig:
   # memoryMiB: 512
 
 env:
-  NEXT_PUBLIC_URL_API_KEY: "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o"
-  NEXT_PUBLIC_URL_AUTH_DOMAIN: "dogchoo-rainchoo.firebaseapp.com"
-  NEXT_PUBLIC_URL_DATABASE_URL: "https://dogchoo-rainchoo-default-rtdb.firebaseio.com"
-  NEXT_PUBLIC_URL_PROJECT_ID: "dogchoo-rainchoo"
-  NEXT_PUBLIC_URL_STORAGE_BUCKET: "dogchoo-rainchoo.firebasestorage.app"
-  NEXT_PUBLIC_URL_MESSING_SENDER_ID: "183416376500"
-  NEXT_PUBLIC_URL_APP_ID: "1:183416376500:web:9cce1dfcedaa199d7f5be1"
-  NEXT_PUBLIC_URL_MEASUREMENT_ID: "G-ZQHDKEKMQZ"
+  - name: NEXT_PUBLIC_URL_API_KEY
+    value: "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o"
+  - name: NEXT_PUBLIC_URL_AUTH_DOMAIN
+    value: "dogchoo-rainchoo.firebaseapp.com"
+  - name: NEXT_PUBLIC_URL_DATABASE_URL
+    value: "https://dogchoo-rainchoo-default-rtdb.firebaseio.com"
+  - name: NEXT_PUBLIC_URL_PROJECT_ID
+    value: "dogchoo-rainchoo"
+  - name: NEXT_PUBLIC_URL_STORAGE_BUCKET
+    value: "dogchoo-rainchoo.firebasestorage.app"
+  - name: NEXT_PUBLIC_URL_MESSING_SENDER_ID
+    value: "183416376500"
+  - name: NEXT_PUBLIC_URL_APP_ID
+    value: "1:183416376500:web:9cce1dfcedaa199d7f5be1"
+  - name: NEXT_PUBLIC_URL_MEASUREMENT_ID
+    value: "G-ZQHDKEKMQZ"
 
   # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
