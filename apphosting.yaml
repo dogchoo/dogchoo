@@ -19,3 +19,5 @@ env:
     value: "1:183416376500:web:9cce1dfcedaa199d7f5be1"
   - name: NEXT_PUBLIC_URL_MEASUREMENT_ID
     value: "G-ZQHDKEKMQZ"
+  - name: FIREBASE_CONFIG
+    value: '{"apiKey": "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o", "authDomain": "dogchoo-rainchoo.firebaseapp.com", "databaseURL": "https://dogchoo-rainchoo-default-rtdb.firebaseio.com", "projectId": "dogchoo-rainchoo", "storageBucket": "dogchoo-rainchoo.firebasestorage.app", "messagingSenderId": "183416376500", "appId": "1:183416376500:web:9cce1dfcedaa199d7f5be1", "measurementId": "G-ZQHDKEKMQZ"}'
