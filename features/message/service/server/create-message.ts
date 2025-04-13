@@ -1,6 +1,6 @@
 import { CreateMessageFormValue, createMessageSchema } from "@/features/message/model/schema/create-message-schema";
 import { CustomError } from "@/util/custom-error";
-import { pushMessage } from "../model/repository/create-message";
+import { pushMessage } from "../../repository/create-message";
 
 // 사용자가 입력한 데이터를 받아 메시지를 저장하는 서비스 함수
 export const createMessage = async (data: CreateMessageFormValue) => {

@@ -1,7 +1,7 @@
 import { MessageListItem } from "@/features/message/model/types/message-list-item";
 import { convertMessageObject } from "@/features/message/utils";
 import { CustomError } from "@/util/custom-error";
-import { getMessages } from "../model/repository/fetch-message";
+import { getMessages } from "../../repository/fetch-message";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";
 

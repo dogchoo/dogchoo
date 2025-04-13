@@ -1,5 +1,5 @@
-import { createMessage } from "@/features/message/service/create-message";
-import { fetchMessage } from "@/features/message/service/fetch-message";
+import { createMessage } from "@/features/message/service/server/create-message";
+import { fetchMessage } from "@/features/message/service/server/fetch-message";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
 
