@@ -1,14 +1,5 @@
 runtime: nodejs18
 
-entry: .
-
-runConfig:
-  minInstances: 0
-  # maxInstances: 100
-  # concurrency: 80
-  # cpu: 1
-  # memoryMiB: 512
-
 env:
   - name: NEXT_PUBLIC_URL_API_KEY
     value: "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o"
@@ -26,8 +17,3 @@ env:
     value: "1:183416376500:web:9cce1dfcedaa199d7f5be1"
   - name: NEXT_PUBLIC_URL_MEASUREMENT_ID
     value: "G-ZQHDKEKMQZ"
-
-  # Grant access to secrets in Cloud Secret Manager.
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: MY_SECRET
-  #   secret: mySecretRef
