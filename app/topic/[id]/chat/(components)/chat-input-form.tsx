@@ -11,20 +11,20 @@ import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-interface ChatAreaProps {
+interface ChatInputFormProps {
   isChatEnabled: boolean;
   isLoading: boolean;
   handleSubmit?: (value: CreateMessageFormValue) => void;
 }
 
-const createMessageSchemaOmitClientId = createMessageSchema.omit({ clientId: true });
-type CreateMessageOmitClientFormValue = z.infer<typeof createMessageSchemaOmitClientId>;
+const omitsCreateMessageSchema = createMessageSchema.omit({ clientId: true, topicId: true });
+type CreateMessageOmitClientFormValue = z.infer<typeof omitsCreateMessageSchema>;
 
-const ChatArea = ({ isChatEnabled, isLoading, handleSubmit }: ChatAreaProps) => {
+const ChatInputForm = ({ isChatEnabled, isLoading, handleSubmit }: ChatInputFormProps) => {
   const clientId = useClient();
 
   const form = useForm<CreateMessageOmitClientFormValue>({
-    resolver: zodResolver(createMessageSchemaOmitClientId),
+    resolver: zodResolver(omitsCreateMessageSchema),
     defaultValues: {
       name: "김슥삑",
     },
@@ -35,6 +35,7 @@ const ChatArea = ({ isChatEnabled, isLoading, handleSubmit }: ChatAreaProps) => 
     handleSubmit?.({
       ...value,
       clientId,
+      topicId: "1",
     });
   };
 
@@ -94,4 +95,4 @@ const ChatArea = ({ isChatEnabled, isLoading, handleSubmit }: ChatAreaProps) => 
   );
 };
 
-export default ChatArea;
+export default ChatInputForm;

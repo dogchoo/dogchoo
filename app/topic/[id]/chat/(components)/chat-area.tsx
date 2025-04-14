@@ -1,6 +1,6 @@
 "use client";
 
-import ChatArea from "@/components/chat-area";
+import ChatInputForm from "@/app/topic/[id]/chat/(components)/chat-input-form";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
@@ -10,11 +10,11 @@ import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
 import { v4 as uuidv4 } from "uuid";
 
-const WelcomePage = () => {
+const ChatArea = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isChatEnabled, setIsChatEnabled] = useState(true);
-  const [cooldownTime, setCooldownTime] = useState(0);
+  const [_, setCooldownTime] = useState(0);
 
   const submitSubject = useRef(new Subject<CreateMessageFormValue>());
   const chatEnabledSubject = useRef(new BehaviorSubject<boolean>(true));
@@ -99,7 +99,7 @@ const WelcomePage = () => {
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="mt-16 flex h-full flex-col">
       <div className="mb-28 flex-1 overflow-hidden">
         <ScrollArea
           className="h-full px-6"
@@ -123,7 +123,7 @@ const WelcomePage = () => {
       </div>
 
       <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
-        <ChatArea
+        <ChatInputForm
           isLoading={addMessageMutation.isPending}
           handleSubmit={handleSubmit}
           isChatEnabled={isChatEnabled}
@@ -133,4 +133,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default ChatArea;
