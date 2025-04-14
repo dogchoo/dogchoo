@@ -8,7 +8,6 @@ import { useMessage } from "@/features/message/service/client/use-message";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
-import { v4 as uuidv4 } from "uuid";
 
 const ChatArea = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -18,10 +17,10 @@ const ChatArea = () => {
 
   const submitSubject = useRef(new Subject<CreateMessageFormValue>());
   const chatEnabledSubject = useRef(new BehaviorSubject<boolean>(true));
-
   const timestampsRef = useRef<number[]>([]);
 
   const { addMessageMutation, initialMessage } = useMessage();
+  const { messages, isLoading, isFetching } = initialMessage();
 
   const handleSubmit = (value: CreateMessageFormValue) => {
     if (isChatEnabled) {
@@ -35,19 +34,11 @@ const ChatArea = () => {
     contentRef.current?.scrollIntoView(false);
   };
 
-  const { messages, isLoading, isFetching } = initialMessage();
-
   useEffect(() => {
     handleToBottom();
   }, [messages]);
 
   useEffect(() => {
-    let clientId = localStorage.getItem("chatClientId");
-    if (!clientId) {
-      clientId = uuidv4() as string;
-      localStorage.setItem("chatClientId", clientId);
-    }
-
     const subscription = submitSubject.current.subscribe(() => {
       const now = Date.now();
       timestampsRef.current.push(now);
