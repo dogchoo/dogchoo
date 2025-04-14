@@ -100,7 +100,7 @@ const ChatArea = () => {
 
   return (
     <div className="mt-16 flex h-full flex-col">
-      <div className="mb-28 flex-1 overflow-hidden">
+      <div className="mb-48 flex-1 overflow-hidden">
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
