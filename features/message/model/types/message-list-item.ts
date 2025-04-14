@@ -4,4 +4,5 @@ export interface MessageListItem {
   created: string;
   id: string;
   clientId: string;
+  topicId: string;
 }
