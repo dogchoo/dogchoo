@@ -7,3 +7,7 @@ export const createMessageSchema = z.object({
 });
 
 export type CreateMessageFormValue = z.infer<typeof createMessageSchema>;
+
+export type MessageEntity = CreateMessageFormValue & {
+  created: string;
+};
