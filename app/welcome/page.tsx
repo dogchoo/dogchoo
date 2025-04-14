@@ -104,9 +104,6 @@ const WelcomePage = () => {
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
-          onScroll={(e) => {
-            console.log(e);
-          }}
         >
           <div
             className="flex flex-col gap-2 pt-2"
@@ -127,7 +124,7 @@ const WelcomePage = () => {
 
       <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
         <ChatArea
-          isLoading={addMessageMutation.isLoading}
+          isLoading={addMessageMutation.isPending}
           handleSubmit={handleSubmit}
           isChatEnabled={isChatEnabled}
         />

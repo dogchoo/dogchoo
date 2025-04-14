@@ -1,0 +1,27 @@
+runtime: nodejs20
+entry: .
+
+runConfig:
+  minInstances: 0
+  maxInstances: 100
+  concurrency: 80
+  cpu: 1
+  memoryMiB: 512
+
+env:
+  - variable: NEXT_PUBLIC_URL_API_KEY
+    value: "AIzaSyAazZrX1gKW7KtLsa0FDfr3XStqc5odU0o"
+  - variable: NEXT_PUBLIC_URL_AUTH_DOMAIN
+    value: "dogchoo-rainchoo.firebaseapp.com"
+  - variable: NEXT_PUBLIC_URL_DATABASE_URL
+    value: "https://dogchoo-rainchoo-default-rtdb.firebaseio.com"
+  - variable: NEXT_PUBLIC_URL_PROJECT_ID
+    value: "dogchoo-rainchoo"
+  - variable: NEXT_PUBLIC_URL_STORAGE_BUCKET
+    value: "dogchoo-rainchoo.firebasestorage.app"
+  - variable: NEXT_PUBLIC_URL_MESSAGING_SENDER_ID
+    value: "183416376500"
+  - variable: NEXT_PUBLIC_URL_APP_ID
+    value: "1:183416376500:web:9cce1dfcedaa199d7f5be1"
+  - variable: NEXT_PUBLIC_URL_MEASUREMENT_ID
+    value: "G-ZQHDKEKMQZ"
