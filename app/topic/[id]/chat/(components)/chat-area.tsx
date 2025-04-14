@@ -23,11 +23,11 @@ const ChatArea = () => {
   const { messages, isLoading, isFetching } = initialMessage();
 
   const handleSubmit = (value: CreateMessageFormValue) => {
-    if (isChatEnabled) {
-      addMessageMutation.mutate(value);
-      handleToBottom();
-      submitSubject.current.next(value);
-    }
+    if (!isChatEnabled) return;
+
+    addMessageMutation.mutate(value);
+    handleToBottom();
+    submitSubject.current.next(value);
   };
 
   const handleToBottom = () => {
