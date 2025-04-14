@@ -1,11 +1,11 @@
 import { createTopic } from "@/features/topic/service/server/create-topic";
-import { getLatestTopic } from "@/features/topic/service/server/fetch-topic";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
+import { TopicService } from "./../../../features/topic/service/server/topic-service";
 
 export async function GET(req: NextRequest) {
   try {
-    const topic = await getLatestTopic();
+    const topic = await TopicService.getLatestTopic();
     return NextResponse.json({ topic });
   } catch (err) {
     return handleApiError(err);
