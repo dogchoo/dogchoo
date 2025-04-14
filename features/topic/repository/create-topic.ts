@@ -3,7 +3,7 @@ import { push, ref } from "firebase/database";
 import { CreateTopicPayload } from "../model/schema/create-topic-schema";
 
 // 실제 메시지를 저장하는 함수
-export const pushTopic = async (message: CreateTopicPayload) => {
-  const messageRef = ref(db, "message");
-  return await push(messageRef, message);
+export const pushTopic = async (topic: CreateTopicPayload) => {
+  const topicRef = ref(db, "topic");
+  return await push(topicRef, topic);
 };

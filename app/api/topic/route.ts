@@ -1,15 +1,16 @@
 import { createTopic } from "@/features/topic/service/server/create-topic";
+import { getLatestTopic } from "@/features/topic/service/server/fetch-topic";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
 
-// export async function GET(req: NextRequest) {
-//   try {
-//     const messages = await fetchMessage();
-//     return NextResponse.json({ messages });
-//   } catch (err) {
-//     return handleApiError(err);
-//   }
-// }
+export async function GET(req: NextRequest) {
+  try {
+    const topic = await getLatestTopic();
+    return NextResponse.json({ topic });
+  } catch (err) {
+    return handleApiError(err);
+  }
+}
 
 export async function POST(req: NextRequest) {
   try {
