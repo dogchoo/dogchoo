@@ -3,8 +3,6 @@ import { convertMessageObject } from "@/features/message/utils";
 import { CustomError } from "@/util/custom-error";
 import { getMessages } from "../../repository/fetch-message";
 
-export const MESSAGES_QUERY_KEY = "MESSAGE";
-
 export const fetchMessage = async (): Promise<MessageListItem[]> => {
   const data = await getMessages();
 
