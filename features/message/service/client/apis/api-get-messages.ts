@@ -4,10 +4,7 @@ import { request } from "@/util/request";
 export const apiGetMessages = async (topicId: string) => {
   const { messages } = await request<{ messages: MessageListItem[] }>({
     method: "GET",
-    url: "/api/topic/message",
-    query: {
-      topicId,
-    },
+    url: `/api/topic/${topicId}/message`,
   });
 
   return messages;
