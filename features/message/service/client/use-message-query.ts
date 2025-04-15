@@ -1,30 +1,16 @@
 import { MessageListItem } from "@/features/message/model/types/message-list-item";
-import { convertMessageObject } from "@/features/message/utils";
+import { apiGetMessages } from "@/features/message/service/client/apis/api-get-messages";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";
 
-const fetchMessage = async () => {
-  const response = await fetch("/api/message", {
-    method: "GET",
-  });
-
-  if (!response.ok) {
-    throw new Error("에러.");
-  }
-
-  const data = await response.json();
-
-  return convertMessageObject(data.messages);
-};
-
 export const useMessageQuery = () => {
   const queryClient = useQueryClient();
 
-  const messagesQuery = () => {
+  const messagesQuery = (topicId: string) => {
     const query = useQuery<MessageListItem[]>({
-      queryKey: [MESSAGES_QUERY_KEY],
-      queryFn: fetchMessage,
+      queryKey: [MESSAGES_QUERY_KEY, topicId],
+      queryFn: () => apiGetMessages(topicId),
       initialData: [],
       refetchOnWindowFocus: false,
     });

@@ -9,7 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
 
-const ChatArea = () => {
+const ChatArea = ({ topicId }: { topicId: string }) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isChatEnabled, setIsChatEnabled] = useState(true);
@@ -19,14 +19,19 @@ const ChatArea = () => {
   const chatEnabledSubject = useRef(new BehaviorSubject<boolean>(true));
   const timestampsRef = useRef<number[]>([]);
 
-  const { addMessageMutation, initialMessage } = useMessage();
-  const { messages, isLoading, isFetching } = initialMessage();
+  const { addMessageMutation, initialMessage } = useMessage(topicId);
+  const { messages, isLoading, isFetching } = initialMessage(topicId);
 
   const handleSubmit = (value: CreateMessageFormValue) => {
     if (!isChatEnabled) return;
 
-    addMessageMutation.mutate(value);
+    addMessageMutation.mutate({
+      ...value,
+      topicId,
+    });
+
     handleToBottom();
+
     submitSubject.current.next(value);
   };
 

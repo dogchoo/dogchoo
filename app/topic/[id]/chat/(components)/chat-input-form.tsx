@@ -17,7 +17,7 @@ interface ChatInputFormProps {
   handleSubmit?: (value: CreateMessageFormValue) => void;
 }
 
-const omitsCreateMessageSchema = createMessageSchema.omit({ clientId: true, topicId: true });
+const omitsCreateMessageSchema = createMessageSchema.omit({ clientId: true });
 type CreateMessageOmitClientFormValue = z.infer<typeof omitsCreateMessageSchema>;
 
 const ChatInputForm = ({ isChatEnabled, isLoading, handleSubmit }: ChatInputFormProps) => {
@@ -35,7 +35,6 @@ const ChatInputForm = ({ isChatEnabled, isLoading, handleSubmit }: ChatInputForm
     handleSubmit?.({
       ...value,
       clientId,
-      topicId: "1",
     });
   };
 
