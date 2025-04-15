@@ -118,7 +118,7 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
         </ScrollArea>
       </div>
 
-      <div className="fixed bottom-0 left-0 w-full bg-white px-4 py-3 shadow-inner">
+      <div className="absolute bottom-0 left-0 w-full border-t-1 bg-white px-4 py-3">
         <ChatInputForm
           isLoading={addMessageMutation.isPending}
           handleSubmit={handleSubmit}
