@@ -1,7 +1,7 @@
 import { createTopic } from "@/features/topic/service/server/create-topic";
+import { TopicService } from "@/features/topic/service/server/topic-service";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
-import { TopicService } from "./../../../features/topic/service/server/topic-service";
 
 export async function GET(req: NextRequest) {
   try {
