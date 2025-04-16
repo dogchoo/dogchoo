@@ -1,4 +1,4 @@
-import { createTopic } from "@/features/topic/service/server/create-topic";
+import { createTopic } from "@/features/topic/service/create-topic";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
 

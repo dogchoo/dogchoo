@@ -1,5 +1,5 @@
+import { apiGetMessages } from "@/features/message/apis/api-get-messages";
 import { MessageListItem } from "@/features/message/model/types/message-list-item";
-import { apiGetMessages } from "@/features/message/service/client/apis/api-get-messages";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const MESSAGES_QUERY_KEY = "MESSAGE";

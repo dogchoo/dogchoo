@@ -12,6 +12,26 @@ interface MessageProps {
   message: MessageListItem;
 }
 
+const getColorFromClientId = (clientId: string): { bg: string; text: string } => {
+  const hashSource = clientId.slice(0, 8); // ex: "ac12e7f4"
+
+  let hash = 0;
+  for (let i = 0; i < hashSource.length; i++) {
+    hash = hashSource.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const hue = Math.abs(hash) % 360;
+
+  const saturation = 70;
+  const lightness = 85;
+
+  const bg = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+  const text = lightness > 70 ? "#1f1f1f" : "#fff";
+
+  return { bg, text };
+};
+
 const Message = ({ className, message }: MessageProps) => {
   const [showHeart, setShowHeart] = useState(false);
 
@@ -22,12 +42,15 @@ const Message = ({ className, message }: MessageProps) => {
   const clientId = useClient();
   const isCurrentClient = message.clientId === clientId;
 
+  const { bg, text } = getColorFromClientId(message.clientId);
+
   return (
     <motion.div
-      className={cn("relative w-fit max-w-48 cursor-pointer rounded-md border p-2", className, isCurrentClient && "self-end")}
+      className={cn("relative w-fit max-w-64 cursor-pointer rounded-md border p-2", className, isCurrentClient && "self-end")}
       initial={{ opacity: 0, translateX: isCurrentClient ? -20 : 20 }}
       animate={{ opacity: 1, translateX: isCurrentClient ? -2 : 2 }}
       exit={{ opacity: 0, translateX: isCurrentClient ? -20 : 20 }}
+      style={{ backgroundColor: bg, color: text }}
       onDoubleClick={handleDoubleClick}
     >
       <div className="flex items-center justify-between gap-2">

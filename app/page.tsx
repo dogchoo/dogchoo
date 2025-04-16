@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { apiGetLatestTopicServer } from "@/features/topic/service/client/apis/api-get-latest-topic-server";
+import { apiGetLatestTopicServer } from "@/features/topic/apis/api-get-latest-topic-server";
 import Logo from "@/public/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";

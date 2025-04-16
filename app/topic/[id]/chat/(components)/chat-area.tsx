@@ -3,8 +3,8 @@
 import ChatInputForm from "@/app/topic/[id]/chat/(components)/chat-input-form";
 import Message from "@/components/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMessage } from "@/features/message/hooks/use-message";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
-import { useMessage } from "@/features/message/service/client/use-message";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";

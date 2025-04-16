@@ -1,8 +1,8 @@
+import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
+import { TopicRepository } from "@/features/topic/repository/topic-repository";
 import { db } from "@/libs/firebase";
 import { CustomError } from "@/util/custom-error";
 import { get, ref } from "firebase/database";
-import { CreateTopicFormValue, createTopicSchema } from "../../model/schema/create-topic-schema";
-import { TopicRepository } from "../../repository/topic-repository";
 
 export class TopicService {
   static async createTopic(data: CreateTopicFormValue) {

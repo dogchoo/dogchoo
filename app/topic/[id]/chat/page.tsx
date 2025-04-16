@@ -1,6 +1,6 @@
 import ChatArea from "@/app/topic/[id]/chat/(components)/chat-area";
 import ChatHeader from "@/app/topic/[id]/chat/(components)/chat-header";
-import { apiGetLatestTopicServer } from "@/features/topic/service/client/apis/api-get-latest-topic-server";
+import { apiGetLatestTopicServer } from "@/features/topic/apis/api-get-latest-topic-server";
 
 interface TopicChatPageProps {
   params: Promise<{

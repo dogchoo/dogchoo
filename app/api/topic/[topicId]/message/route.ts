@@ -1,4 +1,4 @@
-import { MessageService } from "@/features/message/service/server/message-service";
+import { container } from "@/features/container";
 import { handleApiError } from "@/util/handle-api-error";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +14,7 @@ export async function GET(_: NextRequest, { params }: GetMessageParams) {
       return NextResponse.json({ error: "topicId가 필요합니다" }, { status: 400 });
     }
 
-    const messages = await MessageService.fetchMessage(topicId);
+    const messages = await container.messageService.fetchMessage(topicId);
     return NextResponse.json({ messages });
   } catch (err) {
     return handleApiError(err);
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest, { params }: GetMessageParams) {
     }
 
     const messageData = await req.json();
-    const result = await MessageService.createMessage(messageData, topicId);
+    const result = await container.messageService.createMessage(messageData, topicId);
 
     return NextResponse.json({ ok: true, messageId: result.key });
   } catch (err) {
