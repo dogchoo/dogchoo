@@ -1,10 +1,11 @@
 "use client";
 
 import ChatInputForm from "@/app/topic/[id]/chat/(components)/chat-input-form";
-import Message from "@/components/message";
+import Message from "@/app/topic/[id]/chat/(components)/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessage } from "@/features/message/hooks/use-message";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
+import { useClient } from "@/hooks/use-client";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
@@ -14,6 +15,8 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isChatEnabled, setIsChatEnabled] = useState(true);
   const [_, setCooldownTime] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
 
   const submitSubject = useRef(new Subject<CreateMessageFormValue>());
   const chatEnabledSubject = useRef(new BehaviorSubject<boolean>(true));
@@ -21,6 +24,20 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
 
   const { addMessageMutation, initialMessage } = useMessage(topicId);
   const { messages, isLoading, isFetching } = initialMessage(topicId);
+  const clientId = useClient();
+
+  useEffect(() => {
+    if (!isLoading && !isLoaded && messages.length > 0) {
+      handleToBottom();
+      setIsLoaded(true);
+    }
+  }, [isLoading, messages]);
+
+  useEffect(() => {
+    if (messages.at(-1)?.clientId === clientId) {
+      handleToBottom();
+    }
+  }, [messages, lastMessageRef]);
 
   const handleSubmit = (value: CreateMessageFormValue) => {
     if (!isChatEnabled) return;
@@ -38,10 +55,6 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
   const handleToBottom = () => {
     contentRef.current?.scrollIntoView(false);
   };
-
-  useEffect(() => {
-    handleToBottom();
-  }, [messages]);
 
   useEffect(() => {
     const subscription = submitSubject.current.subscribe(() => {
@@ -107,10 +120,11 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
           >
             <AnimatePresence>
               {messages &&
-                messages.map((message) => (
+                messages.map((message, index) => (
                   <Message
                     key={message.id}
                     message={message}
+                    ref={index === messages.length - 1 ? lastMessageRef : undefined}
                   />
                 ))}
             </AnimatePresence>
@@ -118,7 +132,7 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
         </ScrollArea>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full border-t-1 bg-white px-4 py-3">
+      <div className="absolute bottom-0 left-0 w-full max-w-full overflow-hidden border-t-1 bg-white px-4 py-3">
         <ChatInputForm
           isLoading={addMessageMutation.isPending}
           handleSubmit={handleSubmit}
