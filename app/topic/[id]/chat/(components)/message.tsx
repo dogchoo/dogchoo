@@ -5,7 +5,7 @@ import { useClient } from "@/hooks/use-client";
 import { cn } from "@/libs/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThumbsUpIcon } from "lucide-react";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 interface MessageProps {
   className?: string;
@@ -32,7 +32,7 @@ const getColorFromClientId = (clientId: string): { bg: string; text: string } =>
   return { bg, text };
 };
 
-const Message = ({ className, message }: MessageProps) => {
+const Message = forwardRef(({ className, message }: MessageProps, ref) => {
   const [showHeart, setShowHeart] = useState(false);
 
   const handleDoubleClick = () => {
@@ -77,6 +77,6 @@ const Message = ({ className, message }: MessageProps) => {
       </AnimatePresence>
     </motion.div>
   );
-};
+});
 
 export default Message;
