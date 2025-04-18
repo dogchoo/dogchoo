@@ -1,6 +1,6 @@
+import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
+import { pushTopic } from "@/features/topic/repository/create-topic";
 import { CustomError } from "@/util/custom-error";
-import { CreateTopicFormValue, createTopicSchema } from "../../model/schema/create-topic-schema";
-import { pushTopic } from "../../repository/create-topic";
 
 export const createTopic = async (data: CreateTopicFormValue) => {
   const parsed = createTopicSchema.safeParse(data);
