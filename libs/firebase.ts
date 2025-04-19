@@ -1,9 +1,7 @@
-import "firebase/compat/firestore";
+import { initializeApp } from "firebase/app";
 
-import firebase from "firebase/app";
 import { getDatabase } from "firebase/database";
-
-import { firestore } from "firebase-admin";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_URL_API_KEY,
@@ -16,8 +14,8 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_URL_MEASUREMENT_ID,
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const firestoreDb = firestore(app);
+const firestoreDb = getFirestore(app);
 
 export { app, db, firestoreDb };
