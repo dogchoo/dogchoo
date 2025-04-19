@@ -56,4 +56,23 @@ export class TopicService {
       ...(snapshot.val() as any),
     };
   }
+
+  static async createTestTopic(data: CreateTopicFormValue) {
+    const parsed = createTopicSchema.safeParse(data);
+
+    if (!parsed.success) {
+      throw new CustomError("유효하지 않은 형식입니다.", 400);
+    }
+
+    const created = new Date().toISOString();
+
+    const createTopic = {
+      ...parsed.data,
+      created: created,
+      isDone: false,
+    };
+
+    const result = await TopicRepository.createTestTopic(createTopic);
+    return result;
+  }
 }
