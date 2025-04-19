@@ -1,6 +1,6 @@
-import { db, firestoreDb } from "@/libs/firebase"; // Firebase 초기화된 인스턴스
+import { db } from "@/libs/firebase"; // Firebase 초기화된 인스턴스
+import { adminDb } from "@/libs/firebase-admin";
 import { get, push, ref } from "firebase/database";
-import { addDoc, collection } from "firebase/firestore";
 import { CreateTopicPayload } from "../model/schema/create-topic-schema";
 
 export class TopicRepository {
@@ -18,8 +18,10 @@ export class TopicRepository {
     return snapshot.val();
   }
 
-  static async createTestTopic(topic: CreateTopicPayload) {
-    const docRef = await addDoc(collection(firestoreDb, "testTopic"), topic);
+  static async createTestTopic(data: CreateTopicPayload) {
+    const docRef = await adminDb.collection("testTopic").add({
+      data,
+    });
     return docRef;
   }
 }
