@@ -1,27 +1,26 @@
-import { db } from "@/libs/firebase"; // Firebase 초기화된 인스턴스
-import { adminDb } from "@/libs/firebase-admin";
-import { get, push, ref } from "firebase/database";
-import { CreateTopicPayload } from "../model/schema/create-topic-schema";
+import { CreateTopicCommend, ITopicRepository, UpdateTopicCommend } from "@/features/topic/repository/interface";
+import type { DocumentReference, Firestore } from "firebase-admin/firestore";
 
-export class TopicRepository {
-  static async pushTopic(topic: CreateTopicPayload) {
-    const topicRef = ref(db, "topic");
-    return await push(topicRef, topic);
+export class TopicRepository implements ITopicRepository {
+  constructor(private db: Firestore) {}
+
+  async pushTopic(data: CreateTopicCommend): Promise<DocumentReference> {
+    throw new Error("Method not implemented.");
   }
-
-  static async getAllTopics() {
-    const topicRef = ref(db, "topic");
-    const snapshot = await get(topicRef);
-
-    if (!snapshot.exists()) return {};
-
-    return snapshot.val();
+  async findAll?(): Promise<number[]> {
+    throw new Error("Method not implemented.");
   }
-
-  static async createTestTopic(data: CreateTopicPayload) {
-    const docRef = await adminDb.collection("testTopic").add({
-      data,
-    });
-    return docRef;
+  async findById?(id: string): Promise<number | null> {
+    throw new Error("Method not implemented.");
+  }
+  async create(data: CreateTopicCommend): Promise<string | void> {
+    const docRef = await this.db.collection("topics").add(data);
+    return docRef.id;
+  }
+  async update(data: UpdateTopicCommend): Promise<void> {
+    await this.db.collection("topics").doc(data.id).update(data);
+  }
+  async delete(id: string): Promise<void> {
+    await this.db.collection("topics").doc(id).delete();
   }
 }
