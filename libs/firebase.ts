@@ -3,7 +3,7 @@ import "firebase/compat/firestore";
 import firebase from "firebase/app";
 import { getDatabase } from "firebase/database";
 
-import { firestore } from "firebase-admin";
+import admin from "firebase-admin";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_URL_API_KEY,
@@ -18,6 +18,6 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const firestoreDb = firestore(app);
+const firestoreDb = admin.firestore();
 
 export { app, db, firestoreDb };
