@@ -1,4 +1,4 @@
-import { TopicListItem } from "@/features/topic/model/types/topic-list-item";
+import { PaginatedTopicResult, TopicListItem } from "@/features/topic/model/types/topic-list-item";
 import { CreateTopicCommend, ITopicRepository, UpdateTopicCommend } from "@/features/topic/repository/interface";
 import type { Firestore, Timestamp } from "firebase-admin/firestore";
 
@@ -11,12 +11,47 @@ export class TopicRepository implements ITopicRepository {
     return snapshot.docs.map((doc) => {
       const data = doc.data();
       return {
+        id: doc.id,
         title: data.title,
         content: data.content,
         isDone: data.isDone,
         created: (data.created as Timestamp).toDate().toISOString(),
       };
     });
+  }
+
+  async findByPage(page = 1, limit = 10): Promise<PaginatedTopicResult> {
+    let query = this.db.collection("topics").orderBy("created", "desc").limit(limit);
+
+    // page > 1이면 cursor를 계산
+    if (page > 1) {
+      const offset = (page - 1) * limit;
+
+      const offsetSnapshot = await this.db.collection("topics").orderBy("created", "desc").limit(offset).get();
+
+      const lastDoc = offsetSnapshot.docs[offsetSnapshot.docs.length - 1];
+      if (lastDoc) {
+        query = query.startAfter(lastDoc.data().created.toDate());
+      }
+    }
+
+    const snapshot = await query.get();
+
+    const topics: TopicListItem[] = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        content: data.content,
+        title: data.title,
+        isDone: data.isDone,
+        created: (data.created as Timestamp).toDate().toISOString(),
+      };
+    });
+
+    const last = snapshot.docs[snapshot.docs.length - 1];
+    const nextCursor = last ? (last.data().created as Timestamp).toDate().toISOString() : null;
+
+    return { topics, nextCursor };
   }
 
   async findById(id: string): Promise<TopicListItem | null> {

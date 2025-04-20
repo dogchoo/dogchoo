@@ -32,9 +32,24 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function GET(_: NextRequest) {
+// http://localhost:3000/api/topic?page=1&limit=1  같은식으로 url
+// page와 list요청이 있으면 페이지형식으로 없으면 모든 토픽 가져오기.
+export async function GET(req: NextRequest) {
   try {
-    const result = await container.topicService.fetchAllTopic();
+    const searchParams = new URL(req.url).searchParams;
+    const page = searchParams.get("page");
+    const limit = searchParams.get("limit");
+
+    let result;
+
+    if (page && limit) {
+      // 페이지네이션 요청일 때
+      result = await container.topicService.fetchTopicByPage(parseInt(page), parseInt(limit));
+    } else {
+      // 전체 조회 요청일 때
+      result = await container.topicService.fetchAllTopic();
+    }
+
     return NextResponse.json({ ok: true, result });
   } catch (err) {
     return handleApiError(err);

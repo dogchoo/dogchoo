@@ -2,7 +2,7 @@ import { IBaseRepository } from "@/features/core/base-repository";
 import { UpdateTopicFormValue } from "@/features/topic/model/schema/update-topic-schema";
 
 import { CreateTopicFormValue } from "@/features/topic/model/schema/create-topic-schema";
-import { TopicListItem } from "@/features/topic/model/types/topic-list-item";
+import { PaginatedTopicResult, TopicListItem } from "@/features/topic/model/types/topic-list-item";
 
 // repository에서만
 export type CreateTopicCommend = CreateTopicFormValue & {
@@ -18,4 +18,5 @@ export interface ITopicRepository extends IBaseRepository<TopicListItem, CreateT
   delete(id: string): Promise<void>;
   findAll(): Promise<TopicListItem[]>;
   findById(id: string): Promise<TopicListItem | null>;
+  findByPage(page: number, limit: number): Promise<PaginatedTopicResult>;
 }
