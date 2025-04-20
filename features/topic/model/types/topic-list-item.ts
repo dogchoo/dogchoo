@@ -1,8 +1,7 @@
-import { MessageListItem } from "@/features/message/model/types/message-list-item";
-
 export interface TopicListItem {
   title: string;
+  content: string;
   isDone: boolean;
   created: string;
-  message: Record<string, MessageListItem>;
+  // message: Record<string, MessageListItem>;
 }

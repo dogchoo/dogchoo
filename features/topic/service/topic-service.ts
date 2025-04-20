@@ -1,5 +1,7 @@
 import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
+import { DeleteTopicFormValue } from "@/features/topic/model/schema/delete-topic-schema";
 import { UpdateTopicFormValue, updateTopicSchema } from "@/features/topic/model/schema/update-topic-schema";
+import { TopicListItem } from "@/features/topic/model/types/topic-list-item";
 import { ITopicRepository } from "@/features/topic/repository/interface";
 import { ITopicService } from "@/features/topic/service/interface";
 import { CustomError } from "@/util/custom-error";
@@ -34,7 +36,15 @@ export class TopicService implements ITopicService {
     await this.repository.update(parsed.data);
   }
 
-  async deleteTopic(id: string) {
-    await this.repository.delete(id);
+  async deleteTopic(data: DeleteTopicFormValue) {
+    await this.repository.delete(data.id);
+  }
+
+  async fetchTopic(id: string): Promise<TopicListItem | null> {
+    return await this.repository.findById(id);
+  }
+
+  async fetchAllTopic(): Promise<TopicListItem[]> {
+    return await this.repository.findAll();
   }
 }
