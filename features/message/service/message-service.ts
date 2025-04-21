@@ -1,11 +1,11 @@
 import { CreateMessageFormValue, createMessageSchema } from "@/features/message/model/schema/create-message-schema";
 import { MessageListItem } from "@/features/message/model/types/message-list-item";
-import { MessageRepository } from "@/features/message/repository/message-repository";
 import { IMessageService } from "@/features/message/service/interface";
 import { CustomError } from "@/util/custom-error";
+import { IMessageRepository } from "../repository/interface";
 
 export class MessageService implements IMessageService {
-  constructor(private repository: MessageRepository) {}
+  constructor(private repository: IMessageRepository) {}
 
   async createMessage(data: CreateMessageFormValue, topicId: string) {
     const parsed = createMessageSchema.safeParse(data);
