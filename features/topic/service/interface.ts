@@ -12,4 +12,5 @@ export interface ITopicService extends IBaseService<ITopicRepository> {
   fetchTopic(id: string): Promise<TopicListItem | null>;
   fetchAllTopic(): Promise<TopicListItem[]>;
   fetchTopicByPage(page: number, limit: number): Promise<PaginatedTopicResult>;
+  findLatest(): Promise<TopicListItem | null>;
 }

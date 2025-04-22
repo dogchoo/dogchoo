@@ -78,4 +78,21 @@ export class TopicRepository implements ITopicRepository {
   async delete(id: string): Promise<void> {
     await this.db.collection("topics").doc(id).delete();
   }
+
+  async findLatest(): Promise<TopicListItem | null> {
+    const snapshot = await this.db.collection("topics").orderBy("created", "desc").limit(1).get();
+
+    if (snapshot.empty) return null;
+
+    const doc = snapshot.docs[0];
+    const data = doc.data();
+
+    return {
+      id: doc.id,
+      title: data.title,
+      content: data.content,
+      isDone: data.isDone,
+      created: (data.created as Timestamp).toDate().toISOString(),
+    } as TopicListItem;
+  }
 }

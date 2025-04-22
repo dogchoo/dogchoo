@@ -19,4 +19,5 @@ export interface ITopicRepository extends IBaseRepository<TopicListItem, CreateT
   findAll(): Promise<TopicListItem[]>;
   findById(id: string): Promise<TopicListItem | null>;
   findByPage(page: number, limit: number): Promise<PaginatedTopicResult>;
+  findLatest(): Promise<TopicListItem | null>;
 }
