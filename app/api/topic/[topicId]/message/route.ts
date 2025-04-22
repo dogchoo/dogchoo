@@ -30,9 +30,11 @@ export async function POST(req: NextRequest, { params }: GetMessageParams) {
     }
 
     const messageData = await req.json();
-    const result = await container.messageService.createMessage(messageData, topicId);
+    const messageDataInput = { ...messageData, topicId: topicId };
 
-    return NextResponse.json({ ok: true, messageId: result.key });
+    const result = await container.messageService.create(messageDataInput);
+
+    return NextResponse.json({ ok: true, messageId: result });
   } catch (err) {
     return handleApiError(err);
   }

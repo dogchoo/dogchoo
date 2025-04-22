@@ -1,8 +1,11 @@
 import { IBaseRepository } from "@/features/core/base-repository";
-import { MessageEntity } from "@/features/message/model/schema/create-message-schema";
-import { DatabaseReference } from "firebase/database";
+import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
 
-export interface IMessageRepository extends IBaseRepository<number, MessageEntity> {
-  pushMessage(data: MessageEntity, topicId: string): Promise<DatabaseReference>;
+export type CreateMessageCommend = CreateMessageFormValue & {
+  created: string;
+};
+
+export interface IMessageRepository extends IBaseRepository<number, CreateMessageCommend> {
   getMessagesByTopicId(topicId: string): Promise<number>;
+  create(message: CreateMessageCommend): Promise<string | void>;
 }
