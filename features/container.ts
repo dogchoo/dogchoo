@@ -12,7 +12,7 @@ interface Container {
   topicService: ITopicService;
 }
 
-const messageRepository = new MessageRepository(db);
+const messageRepository = new MessageRepository(db, adminDb);
 const topicRepository = new TopicRepository(adminDb);
 
 export const container: Container = {

@@ -51,4 +51,8 @@ export class TopicService implements ITopicService {
   async fetchTopicByPage(page = 1, limit = 10): Promise<PaginatedTopicResult> {
     return await this.repository.findByPage(page, limit);
   }
+
+  async findLatest(): Promise<TopicListItem | null> {
+    return await this.repository.findLatest();
+  }
 }
