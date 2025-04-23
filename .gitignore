@@ -43,3 +43,12 @@ next-env.d.ts
 
 # etc
 prettierrc
+
+# functions/ 디렉토리 내에서 컴파일 결과물 제외
+functions/lib/
+
+# functions/ 내 의존성 모듈 제외
+functions/node_modules/
+
+# functions/의 firebase-debug 로그
+functions/firebase-debug.log
