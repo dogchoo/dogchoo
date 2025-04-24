@@ -6,11 +6,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessage } from "@/features/message/hooks/use-message";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
 import { useClient } from "@/hooks/use-client";
+import { cn } from "@/libs/utils";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
 
-const ChatArea = ({ topicId }: { topicId: string }) => {
+interface ChartAreaProps {
+  topicId: string;
+  isDone: boolean;
+}
+
+const ChatArea = ({ topicId, isDone }: ChartAreaProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isChatEnabled, setIsChatEnabled] = useState(true);
@@ -109,7 +115,7 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
 
   return (
     <div className="mt-16 flex h-full flex-col">
-      <div className="mb-48 flex-1 overflow-hidden">
+      <div className={cn("mb-48 flex-1 overflow-hidden", isDone && "mb-2")}>
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}
@@ -132,13 +138,15 @@ const ChatArea = ({ topicId }: { topicId: string }) => {
         </ScrollArea>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full max-w-full overflow-hidden border-t-1 bg-white px-4 py-3">
-        <ChatInputForm
-          isLoading={addMessageMutation.isPending}
-          handleSubmit={handleSubmit}
-          isChatEnabled={isChatEnabled}
-        />
-      </div>
+      {!isDone && (
+        <div className="absolute bottom-0 left-0 w-full max-w-full overflow-hidden border-t-1 bg-white px-4 py-3">
+          <ChatInputForm
+            isLoading={addMessageMutation.isPending}
+            handleSubmit={handleSubmit}
+            isChatEnabled={isChatEnabled}
+          />
+        </div>
+      )}
     </div>
   );
 };

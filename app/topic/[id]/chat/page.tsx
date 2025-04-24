@@ -10,12 +10,15 @@ interface TopicChatPageProps {
 
 const TopicChatPage = async ({ params }: TopicChatPageProps) => {
   const { id } = await params;
-  const { title } = await apiGetLatestTopicServer();
+  const { title, isDone } = await apiGetLatestTopicServer();
 
   return (
     <>
       <ChatHeader title={title} />
-      <ChatArea topicId={id} />
+      <ChatArea
+        topicId={id}
+        isDone={isDone}
+      />
     </>
   );
 };

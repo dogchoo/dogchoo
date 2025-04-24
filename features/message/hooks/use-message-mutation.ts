@@ -4,6 +4,9 @@ import { useMutation } from "@tanstack/react-query";
 export const useMessageMutation = () => {
   const addMessageMutation = useMutation({
     mutationFn: apiCreateMessage,
+    onError: (e) => {
+      console.log(e);
+    },
   });
 
   return {

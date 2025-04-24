@@ -31,6 +31,7 @@ const ChatInputForm = ({ isChatEnabled, isLoading, handleSubmit }: ChatInputForm
   });
 
   const onSubmit = (value: CreateMessageOmitClientFormValue) => {
+    console.log("?");
     form.reset();
     handleSubmit?.({
       ...value,
@@ -73,9 +74,10 @@ const ChatInputForm = ({ isChatEnabled, isLoading, handleSubmit }: ChatInputForm
                       onKeyDown={(e) => {
                         if (e.nativeEvent.isComposing) return;
 
+                        console.log(e.nativeEvent.isComposing);
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
-                          form.handleSubmit(onSubmit)();
+                          onSubmit(form.getValues());
                         }
                       }}
                     />
