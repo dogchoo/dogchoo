@@ -28,21 +28,22 @@ const TopicHistoryCarousel = ({ topics }: { topics: TopicListItem[] }) => {
   };
 
   return (
-    <div className="mt-4 h-24">
+    <div className="mt-4 h-24 w-96">
       <Carousel
         draggable
         swipeable
         keyBoardControl
         responsive={responsive}
         autoPlay
-        itemClass="aspect-square p-3"
+        itemClass="p-3"
       >
         {topics.map((topic) => (
           <Link
             href={`/topic/${topic.id}/chat`}
             key={topic.id}
+            className="w-full"
           >
-            <Card className="cursor-pointer">
+            <Card className="aspect-square cursor-pointer">
               <CardHeader>
                 <CardTitle className="text-sm">{topic.title}</CardTitle>
                 <CardDescription>{dateFormat(new Date(topic.created))}</CardDescription>
