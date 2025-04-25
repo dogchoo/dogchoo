@@ -1,7 +1,17 @@
-import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
+import { container } from "@/features/container";
+import {
+  CreateTopicFormValue,
+  createTopicSchema,
+} from "@/features/topic/model/schema/create-topic-schema";
 import { DeleteTopicFormValue } from "@/features/topic/model/schema/delete-topic-schema";
-import { UpdateTopicFormValue, updateTopicSchema } from "@/features/topic/model/schema/update-topic-schema";
-import { PaginatedTopicResult, TopicListItem } from "@/features/topic/model/types/topic-list-item";
+import {
+  UpdateTopicFormValue,
+  updateTopicSchema,
+} from "@/features/topic/model/schema/update-topic-schema";
+import {
+  PaginatedTopicResult,
+  TopicListItem,
+} from "@/features/topic/model/types/topic-list-item";
 import { ITopicRepository } from "@/features/topic/repository/interface";
 import { ITopicService } from "@/features/topic/service/interface";
 import { CustomError } from "@/util/custom-error";
@@ -54,5 +64,15 @@ export class TopicService implements ITopicService {
 
   async findLatest(): Promise<TopicListItem | null> {
     return await this.repository.findLatest();
+  }
+
+  async isDoneTrueTopic(topicId: string): Promise<void> {
+    const updateData = {
+      id: topicId,
+      isDone: true,
+    };
+
+    this.updateTopic(updateData);
+    container.messageService.migrateMessages();
   }
 }
