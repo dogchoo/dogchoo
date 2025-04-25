@@ -8,4 +8,5 @@ export type CreateMessageCommend = CreateMessageFormValue & {
 export interface IMessageRepository extends IBaseRepository<number, CreateMessageCommend> {
   getMessagesByTopicId(topicId: string): Promise<number>;
   create(message: CreateMessageCommend): Promise<string | void>;
+  migrateMessages(): Promise<void>;
 }

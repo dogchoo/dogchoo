@@ -6,4 +6,5 @@ import { IMessageRepository } from "@/features/message/repository/interface";
 export interface IMessageService extends IBaseService<IMessageRepository> {
   fetchMessage(topicId: string): Promise<MessageListItem[]>;
   create(data: CreateMessageFormValue): Promise<string | void>;
+  migrateMessages(): Promise<void>;
 }
