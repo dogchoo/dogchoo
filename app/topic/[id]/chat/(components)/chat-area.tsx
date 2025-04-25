@@ -5,18 +5,16 @@ import Message from "@/app/topic/[id]/chat/(components)/message";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessage } from "@/features/message/hooks/use-message";
 import { CreateMessageFormValue } from "@/features/message/model/schema/create-message-schema";
+import { TopicListItem } from "@/features/topic/model/types/topic-list-item";
 import { useClient } from "@/hooks/use-client";
 import { cn } from "@/libs/utils";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { BehaviorSubject, Subject } from "rxjs";
 
-interface ChartAreaProps {
-  topicId: string;
-  isDone: boolean;
-}
+const ChatArea = ({ topic }: { topic: TopicListItem }) => {
+  const { id: topicId, isDone } = topic;
 
-const ChatArea = ({ topicId, isDone }: ChartAreaProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isChatEnabled, setIsChatEnabled] = useState(true);
@@ -114,8 +112,8 @@ const ChatArea = ({ topicId, isDone }: ChartAreaProps) => {
   }
 
   return (
-    <div className="mt-16 flex h-full flex-col">
-      <div className={cn("mb-48 flex-1 overflow-hidden", isDone && "mb-2")}>
+    <div className="mt-20 flex h-full flex-col">
+      <div className={cn("mb-48 flex-1 overflow-hidden", isDone && "mb-24")}>
         <ScrollArea
           className="h-full px-6"
           ref={scrollAreaRef}

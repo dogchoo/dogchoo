@@ -2,10 +2,10 @@ import { MessageListItem } from "@/features/message/model/types/message-list-ite
 import { request } from "@/util/request";
 
 export const apiGetMessages = async (topicId: string) => {
-  const { messages } = await request<{ messages: MessageListItem[] }>({
+  const { data } = await request<MessageListItem[]>({
     method: "GET",
     url: `/api/topic/${topicId}/message`,
   });
 
-  return messages;
+  return data;
 };

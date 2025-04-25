@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
       result = await container.topicService.fetchAllTopic();
     }
 
-    return NextResponse.json({ ok: true, result });
+    return NextResponse.json({ ok: true, data: result });
   } catch (err) {
     return handleApiError(err);
   }

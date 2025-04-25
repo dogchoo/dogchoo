@@ -1,13 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { apiGetLatestTopicServer } from "@/features/topic/apis/api-get-latest-topic-server";
+import TopicHistory from "@/features/topic/ui/topic-history";
+import { getTimeLeft } from "@/libs/utils";
 import Logo from "@/public/images/logo.png";
+import { MessageCircleMoreIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const DUMMY_TOPIC_ID = "-ONpGrSzf0UU5vTvqEV-";
-
 const HomePage = async () => {
   const latestTopic = await apiGetLatestTopicServer();
+  const today = new Date();
+
+  const timeLeft = getTimeLeft();
 
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
@@ -22,15 +26,30 @@ const HomePage = async () => {
           }}
         />
         <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-muted-foreground">오늘의 주제</p>
-          <p className="text-xl">{latestTopic.title}</p>
+          <div className="w-full space-y-2 rounded-xl border-2 p-6 text-center">
+            <p className="text-muted-foreground">오늘의 주제</p>
+            <p className="text-xl">{latestTopic.title}</p>
 
-          <Button
-            size="lg"
-            className="mt-6 w-full"
-          >
-            <Link href={`/topic/${DUMMY_TOPIC_ID}/chat`}>지금 바로 갈드컵 참여하기 !!</Link>
-          </Button>
+            <Button
+              size="lg"
+              className="mt-6 h-fit w-full py-2"
+            >
+              <Link
+                href={`/topic/${latestTopic.id}/chat`}
+                className="space-y-1"
+              >
+                <div className="flex items-center gap-2">
+                  <MessageCircleMoreIcon />
+                  <p>오늘의 주제 참여하기</p>
+                </div>
+                <p className="text-xs underline underline-offset-2">남은시간: {timeLeft}</p>
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        <div>
+          <TopicHistory />
         </div>
       </main>
     </div>

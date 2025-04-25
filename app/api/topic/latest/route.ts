@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const topic = await container.topicService.findLatest();
-    return NextResponse.json({ topic });
+    return NextResponse.json({ data: topic });
   } catch (err) {
     return handleApiError(err);
   }

@@ -3,7 +3,7 @@ export interface TopicListItem {
   content: string;
   isDone: boolean;
   created: string;
-  // message: Record<string, MessageListItem>;
+  id: string;
 }
 
 export interface PaginatedTopicResult {

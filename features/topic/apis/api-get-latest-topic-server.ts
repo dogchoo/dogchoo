@@ -4,10 +4,10 @@ import { request } from "@/util/request";
 
 export const apiGetLatestTopicServer = async () => {
   const baseUrl = await getServerBaseUrl();
-  const { topic } = await request<{ topic: TopicListItem }>({
+  const { data } = await request<TopicListItem>({
     method: "GET",
     url: `${baseUrl}/api/topic/latest`,
   });
 
-  return topic;
+  return data;
 };

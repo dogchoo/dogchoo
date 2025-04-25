@@ -15,7 +15,7 @@ export async function GET(_: NextRequest, { params }: GetMessageParams) {
     }
 
     const messages = await container.messageService.fetchMessage(topicId);
-    return NextResponse.json({ messages });
+    return NextResponse.json({ data: messages });
   } catch (err) {
     return handleApiError(err);
   }

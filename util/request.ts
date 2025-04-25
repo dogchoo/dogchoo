@@ -12,7 +12,7 @@ export type RequestOptions = {
   readonly errors?: Record<number | string, string>;
 };
 
-export const request = async <TData = any>(options: RequestOptions): Promise<TData> => {
+export const request = async <TData = any>(options: RequestOptions): Promise<{ data: TData }> => {
   const { method, url, headers = {}, query, body, mediaType = "application/json", errors = {} } = options;
 
   let fullUrl = url;
@@ -49,9 +49,9 @@ export const request = async <TData = any>(options: RequestOptions): Promise<TDa
 
     const contentType = res.headers.get("Content-Type") || "";
     if (contentType.includes("application/json")) {
-      return await res.json();
+      return (await res.json()) as any;
     } else {
-      return (await res.text()) as unknown as TData;
+      return (await res.text()) as unknown as { data: TData };
     }
   } catch (err) {
     throw err;
