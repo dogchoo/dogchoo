@@ -1,4 +1,6 @@
+import { storage } from "@/libs/firebase";
 import { clsx, type ClassValue } from "clsx";
+import { getDownloadURL, ref } from "firebase/storage";
 import { twMerge } from "tailwind-merge";
 
 export const cn = (...inputs: ClassValue[]) => {
@@ -38,4 +40,9 @@ export const getTimeLeft = () => {
   const formatted = String(hours).padStart(2, "0") + "시간 " + String(minutes).padStart(2, "0") + "분";
 
   return formatted;
+};
+
+export const getStorageDownloadURL = async (path: string): Promise<string> => {
+  const fileRef = ref(storage, path);
+  return await getDownloadURL(fileRef);
 };
