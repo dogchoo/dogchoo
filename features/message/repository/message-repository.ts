@@ -1,7 +1,7 @@
-import { CreateMessageCommend, IMessageRepository } from "@/features/message/repository/interface";
+import { CreateMessageCommend, DeleteMessageCommend, IMessageRepository, UpdateMessageCommend } from "@/features/message/repository/interface";
 import { CustomError } from "@/util/custom-error";
 import { Firestore } from "firebase-admin/firestore";
-import { Database, get, push, ref, remove } from "firebase/database";
+import { Database, get, push, ref, remove, update } from "firebase/database";
 
 export class MessageRepository implements IMessageRepository {
   constructor(
@@ -36,6 +36,16 @@ export class MessageRepository implements IMessageRepository {
       console.error("메시지 저장 실패:", err);
       throw new CustomError("메시지 저장 중 오류가 발생했습니다.", 500);
     }
+  }
+
+  async update(data: UpdateMessageCommend): Promise<void> {
+    const messageRef = ref(this.db, `topic/${data.topicId}/messages/${data.id}`);
+    await update(messageRef, data);
+  }
+
+  async deleteMessage(data: DeleteMessageCommend): Promise<void> {
+    const messageRef = ref(this.db, `topic/${data.topicId}/messages/${data.id}`);
+    await remove(messageRef);
   }
 
   async migrateMessages(): Promise<void> {

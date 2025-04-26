@@ -14,7 +14,7 @@ export type UpdateTopicCommend = UpdateTopicFormValue;
 
 export interface ITopicRepository extends IBaseRepository<TopicListItem, CreateTopicCommend, UpdateTopicFormValue> {
   create(data: CreateTopicCommend): Promise<string | void>;
-  update(data: UpdateTopicFormValue): Promise<void>;
+  update(data: UpdateTopicCommend): Promise<void>;
   delete(id: string): Promise<void>;
   findAll(): Promise<TopicListItem[]>;
   findById(id: string): Promise<TopicListItem | null>;
