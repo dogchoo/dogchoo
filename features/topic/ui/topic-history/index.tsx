@@ -6,7 +6,7 @@ const TopicHistory = async () => {
   const topics = await apiGetTopicServer({ limit: 10 });
 
   return (
-    <div>
+    <div className="w-full max-w-[480px]">
       <div className="flex w-full items-center justify-center gap-2">
         <HistoryIcon className="size-4" />
         <p>이전 토론 주제</p>
