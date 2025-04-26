@@ -7,6 +7,7 @@ export const updateTopicSchema = z.object({
   title: z.string().min(1, { message: "" }).optional(),
   content: z.string().min(1, { message: "" }).optional(),
   isDone: z.boolean().optional(),
+  startDate: z.string().optional(),
 });
 
 export type UpdateTopicFormValue = z.infer<typeof updateTopicSchema>;

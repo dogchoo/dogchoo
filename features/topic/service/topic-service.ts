@@ -1,17 +1,8 @@
 import { container } from "@/features/container";
-import {
-  CreateTopicFormValue,
-  createTopicSchema,
-} from "@/features/topic/model/schema/create-topic-schema";
+import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
 import { DeleteTopicFormValue } from "@/features/topic/model/schema/delete-topic-schema";
-import {
-  UpdateTopicFormValue,
-  updateTopicSchema,
-} from "@/features/topic/model/schema/update-topic-schema";
-import {
-  PaginatedTopicResult,
-  TopicListItem,
-} from "@/features/topic/model/types/topic-list-item";
+import { UpdateTopicFormValue, updateTopicSchema } from "@/features/topic/model/schema/update-topic-schema";
+import { PaginatedTopicResult, TopicListItem } from "@/features/topic/model/types/topic-list-item";
 import { ITopicRepository } from "@/features/topic/repository/interface";
 import { ITopicService } from "@/features/topic/service/interface";
 import { CustomError } from "@/util/custom-error";
@@ -30,6 +21,7 @@ export class TopicService implements ITopicService {
       ...parsed.data,
       created: new Date(),
       isDone: false,
+      startDate: parsed.data.startDate ?? new Date().toISOString(),
     };
 
     const result = await this.repository.create(topicData);
@@ -72,7 +64,15 @@ export class TopicService implements ITopicService {
       isDone: true,
     };
 
-    this.updateTopic(updateData);
-    container.messageService.migrateMessages();
+    await this.updateTopic(updateData);
+    await container.messageService.migrateMessages();
+  }
+
+  async getTodayTopic(): Promise<TopicListItem[]> {
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    return await this.repository.getTodayTopic(startOfToday, endOfToday);
   }
 }

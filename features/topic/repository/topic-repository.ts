@@ -16,6 +16,7 @@ export class TopicRepository implements ITopicRepository {
         content: data.content,
         isDone: data.isDone,
         created: (data.created as Timestamp).toDate().toISOString(),
+        startDate: (data.startDate as Timestamp).toDate().toISOString(),
       };
     });
   }
@@ -45,6 +46,7 @@ export class TopicRepository implements ITopicRepository {
         title: data.title,
         isDone: data.isDone,
         created: (data.created as Timestamp).toDate().toISOString(),
+        startDate: (data.startDate as Timestamp).toDate().toISOString(),
       };
     });
 
@@ -93,6 +95,27 @@ export class TopicRepository implements ITopicRepository {
       content: data.content,
       isDone: data.isDone,
       created: (data.created as Timestamp).toDate().toISOString(),
+      startDate: (data.startDate as Timestamp).toDate().toISOString(),
     } as TopicListItem;
+  }
+
+  async getTodayTopic(startOfToday: Date, endOfToday: Date): Promise<TopicListItem[]> {
+    const snapshot = await this.db.collection("topics").where("startDate", ">=", startOfToday.toISOString()).where("startDate", "<=", endOfToday.toISOString()).get();
+
+    if (snapshot.empty) {
+      return [];
+    }
+
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title,
+        content: data.content,
+        isDone: data.isDone,
+        created: (data.created as Timestamp).toDate().toISOString(),
+        startDate: data.startDate,
+      } as TopicListItem;
+    });
   }
 }
