@@ -1,3 +1,4 @@
+import { container } from "@/features/container";
 import { CreateTopicFormValue, createTopicSchema } from "@/features/topic/model/schema/create-topic-schema";
 import { DeleteTopicFormValue } from "@/features/topic/model/schema/delete-topic-schema";
 import { UpdateTopicFormValue, updateTopicSchema } from "@/features/topic/model/schema/update-topic-schema";
@@ -20,6 +21,7 @@ export class TopicService implements ITopicService {
       ...parsed.data,
       created: new Date(),
       isDone: false,
+      startDate: parsed.data.startDate ?? new Date().toISOString(),
     };
 
     const result = await this.repository.create(topicData);
@@ -54,5 +56,23 @@ export class TopicService implements ITopicService {
 
   async findLatest(): Promise<TopicListItem | null> {
     return await this.repository.findLatest();
+  }
+
+  async isDoneTrueTopic(topicId: string): Promise<void> {
+    const updateData = {
+      id: topicId,
+      isDone: true,
+    };
+
+    await this.updateTopic(updateData);
+    await container.messageService.migrateMessages();
+  }
+
+  async getTodayTopic(): Promise<TopicListItem[]> {
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    return await this.repository.getTodayTopic(startOfToday, endOfToday);
   }
 }

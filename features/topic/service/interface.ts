@@ -13,4 +13,6 @@ export interface ITopicService extends IBaseService<ITopicRepository> {
   fetchAllTopic(): Promise<TopicListItem[]>;
   fetchTopicByPage(page: number, limit: number): Promise<PaginatedTopicResult>;
   findLatest(): Promise<TopicListItem | null>;
+  isDoneTrueTopic(topicId: string): Promise<void>;
+  getTodayTopic(): Promise<TopicListItem[]>;
 }

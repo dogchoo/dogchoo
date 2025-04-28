@@ -38,4 +38,13 @@ export class MessageService implements IMessageService {
 
     return await this.repository.create(messageData);
   }
+
+  async migrateMessages(): Promise<void> {
+    try {
+      await this.repository.migrateMessages();
+    } catch (error) {
+      console.error("🔥 메시지 마이그레이션 실패:", error);
+      throw new CustomError("메시지 마이그레이션에 실패했습니다.", 500);
+    }
+  }
 }

@@ -4,6 +4,7 @@ export interface TopicListItem {
   isDone: boolean;
   created: string;
   id: string;
+  startDate: string;
 }
 
 export interface PaginatedTopicResult {
