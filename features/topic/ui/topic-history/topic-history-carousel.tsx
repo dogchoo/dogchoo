@@ -12,7 +12,7 @@ const TopicHistoryCarousel = ({ topics }: { topics: TopicListItem[] }) => {
           {topics.map((topic) => (
             <CarouselItem
               key={topic.id}
-              className="md:basis-1/2 lg:basis-1/3"
+              className="basis-1/2 lg:basis-1/3"
             >
               <Link
                 href={`/topic/${topic.id}/chat`}

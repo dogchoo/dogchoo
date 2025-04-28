@@ -1,3 +1,4 @@
+import { PaginatedTopicResult } from "@/features/topic/model/types/topic-list-item";
 import { getServerBaseUrl } from "@/util/get-server-base-url";
 import { request } from "@/util/request";
 
@@ -6,7 +7,7 @@ type Payload = {
   limit?: number;
 };
 
-export const apiGetTopicServer = async (payload?: Payload) => {
+export const apiGetTopicsServer = async (payload?: Payload) => {
   const baseUrl = await getServerBaseUrl();
   const { data } = await request({
     method: "GET",
@@ -17,5 +18,5 @@ export const apiGetTopicServer = async (payload?: Payload) => {
     },
   });
 
-  return data;
+  return data as PaginatedTopicResult;
 };

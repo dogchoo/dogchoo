@@ -1,9 +1,9 @@
-import { apiGetTopicServer } from "@/features/topic/apis/api-get-topic-server";
+import { apiGetTopicsServer } from "@/features/topic/apis/api-get-topics-server";
 import TopicHistoryCarousel from "@/features/topic/ui/topic-history/topic-history-carousel";
 import { HistoryIcon } from "lucide-react";
 
 const TopicHistory = async () => {
-  const topics = await apiGetTopicServer({ limit: 10 });
+  const { topics } = await apiGetTopicsServer({ limit: 10, page: 0 });
 
   return (
     <div className="w-full max-w-[480px]">
