@@ -5,14 +5,17 @@ import { CreateTopicFormValue } from "@/features/topic/model/schema/create-topic
 import { PaginatedTopicResult, TopicListItem } from "@/features/topic/model/types/topic-list-item";
 
 // repository에서만
-export type CreateTopicCommend = CreateTopicFormValue & {
+export type CreateTopicCommend = Omit<CreateTopicFormValue, "startDate"> & {
   isDone: boolean;
   created: Date;
+  startDate: Date;
 };
 
-export type UpdateTopicCommend = UpdateTopicFormValue;
+export type UpdateTopicCommend = Omit<UpdateTopicFormValue, "startDate"> & {
+  startDate: Date;
+};
 
-export interface ITopicRepository extends IBaseRepository<TopicListItem, CreateTopicCommend, UpdateTopicFormValue> {
+export interface ITopicRepository extends IBaseRepository<TopicListItem, CreateTopicCommend, UpdateTopicCommend> {
   create(data: CreateTopicCommend): Promise<string | void>;
   update(data: UpdateTopicCommend): Promise<void>;
   delete(id: string): Promise<void>;

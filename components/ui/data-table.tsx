@@ -57,6 +57,7 @@ interface DataTableProps<TData, TValue> {
   onFilterChange?: (raw: { value: string | null; type: string }) => void;
   onRowChange?: (rows: Row<TData>[]) => void;
   selectedChange?: (row: Row<TData>[]) => void;
+  addCompoennt?: () => ReactNode;
 }
 
 interface SortHeaderProps<TData> {
@@ -123,6 +124,7 @@ const DataTable = <TData, TValue>({
   selectedRowHandler,
   onFilterChange,
   render,
+  addCompoennt,
 }: DataTableProps<TData, TValue>) => {
   const [hydrated, setHydrated] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -230,7 +232,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className={className}>
-      <div className={cn("items-center space-y-2 gap-x-2 lg:flex lg:space-y-0", (search || filter) && "mb-2")}>
+      <div className={cn("flex items-center space-y-2 gap-x-2 lg:space-y-0", (search || filter || addCompoennt) && "mb-2")}>
         {table.getSelectedRowModel().rows.length > 0 && selectedRowHandler && selectedRowHandler(table.getSelectedRowModel().rows)}
 
         <div className="flex-1">
@@ -301,6 +303,8 @@ const DataTable = <TData, TValue>({
             </DropdownMenuContent>
           </DropdownMenu>
         )}
+
+        <div className="self-start">{addCompoennt?.()}</div>
       </div>
 
       <ScrollArea className="w-full rounded-md border">

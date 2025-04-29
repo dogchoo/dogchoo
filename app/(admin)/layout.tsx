@@ -1,4 +1,5 @@
 import AdminTab from "@/app/(admin)/_admin-tab";
+import ModalProvider from "@/components/providers/modal-provider";
 import { Button } from "@/components/ui/button";
 import { HomeIcon, UserCog2 } from "lucide-react";
 import Link from "next/link";
@@ -23,6 +24,8 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
       </div>
 
       <AdminTab />
+
+      <ModalProvider />
 
       {children}
     </div>

@@ -21,7 +21,7 @@ export class TopicService implements ITopicService {
       ...parsed.data,
       created: new Date(),
       isDone: false,
-      startDate: parsed.data.startDate ?? new Date().toISOString(),
+      startDate: parsed.data.startDate ? new Date(parsed.data.startDate) : new Date(),
     };
 
     const result = await this.repository.create(topicData);
@@ -35,7 +35,10 @@ export class TopicService implements ITopicService {
       throw new CustomError("유효하지 않은 타입입니다.", 400);
     }
 
-    await this.repository.update(parsed.data);
+    await this.repository.update({
+      ...parsed.data,
+      startDate: parsed.data.startDate ? new Date(parsed.data.startDate) : new Date(),
+    });
   }
 
   async deleteTopic(data: DeleteTopicFormValue) {

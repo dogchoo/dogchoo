@@ -1,4 +1,4 @@
-import AdminTopicDataTable from "@/app/(admin)/admin/topic/_admin-topic-data-table";
+import AdminTopicDataTable from "@/app/(admin)/admin/topic/admin-topic-data-table";
 import { apiGetTopicsServer } from "@/features/topic/apis/api-get-topics-server";
 
 interface AdminTopicPageProps {

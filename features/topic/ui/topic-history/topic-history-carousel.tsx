@@ -6,13 +6,13 @@ import Link from "next/link";
 
 const TopicHistoryCarousel = ({ topics }: { topics: TopicListItem[] }) => {
   return (
-    <div className="mt-4 h-fit w-full">
+    <div className="mt-4 h-fit w-full overflow-hidden">
       <Carousel>
         <CarouselContent className="-ml-1">
           {topics.map((topic) => (
             <CarouselItem
               key={topic.id}
-              className="basis-1/2 lg:basis-1/3"
+              className="basis-1/3"
             >
               <Link
                 href={`/topic/${topic.id}/chat`}

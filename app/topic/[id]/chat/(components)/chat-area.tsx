@@ -57,7 +57,7 @@ const ChatArea = ({ topic }: { topic: TopicListItem }) => {
   };
 
   const handleToBottom = () => {
-    contentRef.current?.scrollIntoView(false);
+    contentRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const ChatArea = ({ topic }: { topic: TopicListItem }) => {
       </div>
 
       {!isDone && (
-        <div className="absolute bottom-0 left-0 w-full max-w-full overflow-hidden border-t-1 bg-white px-4 py-3">
+        <div className="absolute bottom-0 left-0 w-full max-w-full overflow-hidden border-t-1 bg-white px-4 py-3 dark:bg-black">
           <ChatInputForm
             isLoading={addMessageMutation.isPending}
             handleSubmit={handleSubmit}

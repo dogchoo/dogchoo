@@ -1,8 +1,9 @@
-import { QueryProvider } from "@/components/query-provider";
-import { ThemeProvider } from "@/components/theme-provider";
+import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/libs/utils";
 import type { Metadata, Viewport } from "next";
 import { Dosis, IBM_Plex_Sans_KR, Quicksand } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -37,7 +38,10 @@ export default function RootLayout({
     <html lang="en">
       <QueryProvider>
         <ThemeProvider>
-          <body className={cn(dosis.className, quicksand.className, IBMPlesSans.className, "h-full max-h-screen overflow-y-hidden bg-white dark:bg-black")}>{children}</body>
+          <body className={cn(dosis.className, quicksand.className, IBMPlesSans.className, "h-full max-h-screen overflow-y-hidden bg-white dark:bg-black")}>
+            {children}
+            <Toaster closeButton />
+          </body>
         </ThemeProvider>
       </QueryProvider>
     </html>
