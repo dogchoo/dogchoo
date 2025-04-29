@@ -28,17 +28,18 @@ const UpdateTopicSheet = () => {
   });
 
   const cleanUp = () => {
-    form.reset();
     close();
+    form.reset();
   };
 
   const onSubmit = (value: UpdateTopicFormValue) => {
-    console.log(value);
     updateTopicMutation.mutate(value, {
       onSuccess: () => {
         toast("주제를 수정했습니다.");
-        router.refresh();
         cleanUp();
+        setTimeout(() => {
+          router.refresh();
+        }, 100);
       },
       onError: (e) => {
         console.log(e);
@@ -48,7 +49,7 @@ const UpdateTopicSheet = () => {
   };
 
   useEffect(() => {
-    if (open && !!topic) {
+    if (open && topic) {
       form.reset(topic);
     }
   }, [open]);
@@ -125,6 +126,7 @@ const UpdateTopicSheet = () => {
             />
 
             <LoadingButton
+              disabled={!form.formState.isDirty}
               isLoading={updateTopicMutation.isPending}
               type="submit"
               className="itmes-center flex cursor-pointer gap-x-2"
